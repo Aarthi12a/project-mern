@@ -102,7 +102,7 @@ app.post("/create-note", authenticationToken, async (req, res) => {
     content,
     tags,
     isPinned,
-    user: user._id,
+    userId: user._id,
   });
 
   await note.save();
@@ -111,7 +111,7 @@ app.post("/create-note", authenticationToken, async (req, res) => {
 
 });
 
-app.post('edit-note/:nodeId', authenticationToken, async (req, res) => {
+app.post('/edit-note/:noteId', authenticationToken, async (req, res) => {
   const noteId = req.params.noteId;
   const {title, content, tags, isPinned} = req.body;
   const {user} = req.user;

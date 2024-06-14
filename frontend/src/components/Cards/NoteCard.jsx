@@ -25,8 +25,7 @@ export default function NoteCard({
         <p className='text-xs text-slate-600 mt-2' >{content?.slice(0, 60)}</p>
 
         <div className='flex items-center gap-2'>
-          <div className='text-xs text-slate-500 '>{tags}</div>
-
+<div className='text-xs text-slate-500 '>{tags.map(tag => <span key={tag}>{`#${tag}`}</span>)}</div>
           <div className='flex items-center gap-2'>
             <MdCreate className='icon-btn hover:text-green-600' onClick={onEdit}/>
             <MdDelete className='icon-btn hover:text-red-600' onClick={onDelete}/>
