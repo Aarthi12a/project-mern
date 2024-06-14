@@ -13,4 +13,4 @@ function authenticationToken(req, res, next) {
   });
 }
 
-modules.exports = { authenticationToken };
+module.exports = { authenticationToken };
