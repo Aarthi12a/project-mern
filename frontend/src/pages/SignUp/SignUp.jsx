@@ -2,8 +2,9 @@ import React from "react";
 import { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import PasswordInput from "../../components/Input/PasswordInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import validEmail from "../../utils/helper";
+import axiosInstance from "../../utils/axiosinstance"
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -12,7 +13,9 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSignUp = (e) => {
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     if (!firstName || !lastName || !email || !password) {
@@ -20,12 +23,35 @@ export default function SignUp() {
       return;
     }
 
-    if (!validEmail(email)) {
+    if (!(email)) {
       setError("Invalid Email");
       return;
     }
 
-    setError("");
+    setError(""); 
+
+      try {
+        const response = await axiosInstance.post("/create-user", {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password, password
+        });
+
+        if(response.data.error) {
+          setError(response.data.message);
+          return;
+        }
+
+        if(response.data.accessToken) {
+          localStorage.setItem("token", response.data.accessToken);
+          navigate("/dashboard");
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+
   };
 
   return (

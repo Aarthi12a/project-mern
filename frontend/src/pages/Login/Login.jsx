@@ -15,8 +15,6 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        console.log("handle login")
         
         if(!(email)) {
             setError('Invalid Email');
