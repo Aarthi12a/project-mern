@@ -3,7 +3,7 @@ import ProfileInfo from '../Cards/ProfileInfo'
 import SearchBar from '../SearchBar/SearchBar'
 import { useState } from 'react'
 
-export default function Navbar() {
+export default function Navbar({userInfo}) {
 
   const [SearchQuery, setSearchQuery] = useState('');
 
@@ -26,7 +26,7 @@ export default function Navbar() {
               value={SearchQuery}
               />
 
-            <ProfileInfo />
+            <ProfileInfo userInfo={userInfo}/>
         </nav>
     </>
   )
