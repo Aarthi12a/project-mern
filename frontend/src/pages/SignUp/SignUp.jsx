@@ -35,7 +35,7 @@ export default function SignUp() {
           firstName: firstName,
           lastName: lastName,
           email: email,
-          password, password
+          password: password
         });
 
         if(response.data.error) {
