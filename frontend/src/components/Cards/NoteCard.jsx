@@ -3,7 +3,7 @@ import { MdOutlinePushPin } from 'react-icons/md'
 import { MdCreate, MdDelete } from 'react-icons/md'
 
 export default function NoteCard({
-  title,date,content,tags,isPinned,onEdit,onPin,onDelete, onPinNote
+  title,date,content,tags,isPinned,onEdit,onDelete, onPinNote
 }) {
   return (
     <>
@@ -19,7 +19,7 @@ export default function NoteCard({
 
             </div>
 
-            <MdOutlinePushPin className={`icon-btn ${isPinned ? 'text-primary' : 'text-slate-300'}`}  onClick={onPinNote}/>
+            <MdOutlinePushPin className={`icon-btn  ${isPinned ? 'text-primary' : 'text-slate-300'}`}  onClick={onPinNote}/>
         </div>
 
         <p className='text-xs text-slate-600 mt-2' >{content?.slice(0, 60)}</p>

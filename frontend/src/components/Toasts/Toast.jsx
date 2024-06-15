@@ -18,7 +18,7 @@ export default function Toast({ isShown, message, type, onClose }) {
           isShown ? "block" : "hidden"
         }`}>
       <div
-        className={`min-w-52 after:rounded-l-lg after:top-0 after:left-0 z-50 bg-white after:w-[5px] after:h-full shadow-md rounded-md ${type === "delete" ? "bg-red-500" : "bg-green-500"}`}
+        className={`min-w-52 after:rounded-l-lg after:top-0 after:left-0 z-50 after:w-[5px] after:h-full shadow-md rounded-md ${type === "delete" ? "bg-red-500" : "bg-green-500"}`}
       >
         <div className="flex items-center gap-3 py-2 px-4">
           <div
@@ -28,7 +28,7 @@ export default function Toast({ isShown, message, type, onClose }) {
           >
              {type==='delete' ? <MdDeleteOutline className="text-xl text-red-500"/> : <MdCheck className="text-xl text-green-500" />}
           </div>
-          <p className="text-sm text-slate-600">{message}</p>
+          <p className="text-sm text-slate-100">{message}</p>
         </div>
       </div>
     </div>
