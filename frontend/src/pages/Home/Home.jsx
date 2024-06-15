@@ -58,8 +58,27 @@ export default function Home() {
     setOpenAddEditModal({ isShown: true, type: "edit", data: note });
   }
 
-  const handleShowToast = (message, type) => {
+  const handleShowToast = (message, type = 'delete') => {
     setShowToast({ isShown: true, message, type });
+  }
+
+  const handleDeleteNote = async (note) => {
+    const noteId = note._id;
+    try {
+      const response = await axiosInstance.delete(`/delete-note/${noteId}`);
+
+      if (response.data.error) {
+        console.log(response.data.error);
+        return;
+      }
+
+      if (!response.data.error) {
+        handleShowToast("Note Deleted Successfully");
+        getAllNotes();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -85,7 +104,7 @@ export default function Home() {
               isPinned={note.isPinned}
               onEdit={() => {handleEditNote(note)}}
               onPin={() => {}}
-              onDelete={() => {}}
+              onDelete={() => {handleDeleteNote(note)}}
               onPinNote={() => {}}
             />
           ))}
@@ -119,6 +138,7 @@ export default function Home() {
             setOpenAddEditModal({ isShown: false, type: "add", data: null })
           }
           getAllNotes={getAllNotes}
+          showToast={handleShowToast}
         />
       </Modal>
 

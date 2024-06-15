@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdCheck, MdDeleteOutline } from "react-icons/md";
 
 export default function Toast({ isShown, message, type, onClose }) {
+
+  useEffect(()=>{
+    const timeOut = setTimeout(() => {
+      onClose();
+    }, 3000);
+
+    return () =>{
+      clearTimeout(timeOut);
+    }
+  }, [onClose]);
+
   return (
     <div className={`absolute top-20 right-6 transition-all duration-500 ${
           isShown ? "block" : "hidden"

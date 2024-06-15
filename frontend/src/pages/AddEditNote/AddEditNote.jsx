@@ -4,7 +4,7 @@ import TagInput from "../../components/Input/TagInput";
 import { MdClose } from "react-icons/md";
 import axiosInstance from "../../utils/axiosinstance";
 
-export default function AddEditNote({onClose, noteData, type, getAllNotes}) {
+export default function AddEditNote({onClose, noteData, type, getAllNotes, showToast}) {
   
     const [tags, setTags] = useState(noteData?.tags || []);
     const [title, setTitle] = useState(noteData?.title || '');
@@ -34,25 +34,7 @@ export default function AddEditNote({onClose, noteData, type, getAllNotes}) {
         }
     }
 
-    const handleAddNote = () => {
-        if (!title.trim() || !content.trim()) {
-            setError("Please fill all the fields")
-            return;
-        }
-
-        setError(null)
-
-        if (type === "add") {
-            console.log("Adding Note");
-            addNewNote()
-        }
-
-        if (type === "edit") {
-            console.log("Editing Note");
-            editNote()
-        }
-    }
-
+    
     const handleEditNote = async () => {
         try {
             console.log("Editing Note with id" + ' ' + noteData._id)
@@ -70,9 +52,31 @@ export default function AddEditNote({onClose, noteData, type, getAllNotes}) {
             if(response.data.note) {
                 getAllNotes();
                 onClose();
+                showToast("Note Edited Successfully");
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    const handleAddNote = () => {
+        if (!title.trim() || !content.trim()) {
+            setError("Please fill all the fields")
+            return;
+        }
+
+        setError(null)
+
+        if (type === "add") {
+            console.log("Adding Note");
+            addNewNote()
+            showToast("Note Added Successfully");
+        }
+
+        if (type === "edit") {
+            console.log("Editing Note");
+            editNote()
+            showToast("Note Edited Successfully");
         }
     }
   
