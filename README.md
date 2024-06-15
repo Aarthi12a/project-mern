@@ -87,6 +87,21 @@ We welcome contributions! To get involved:
 
 For more information on how to create a pull request, visit the [GitHub help page](https://help.github.com/articles/creating-a-pull-request/).
 
+## Areas of Improvement
+
+This application was primarily developed as a practice project focusing on several key areas of web development, including API integration, the MERN stack (MongoDB, Express, React, Node.js), cloud deployment (specifically Heroku), as well as authentication and authorization mechanisms. Given its nature as a practice tool, there are several areas where the application could be improved for a more polished, user-friendly experience:
+
+- **User Interface and Experience**: The application currently lacks refined styles, animations, and feedback mechanisms that contribute to a seamless user experience. Future iterations could benefit from a more thoughtful design approach to enhance usability and aesthetic appeal.
+
+- **Data Validation and Restrictions**: There are no restrictions on the length of titles, content, or tags, which can lead to unstyled or awkwardly displayed content. Implementing character limits and content guidelines would help maintain a consistent and visually appealing layout.
+
+- **Field Requirements Indication**: Required fields are not currently marked with an asterisk (*) or any other indicator. This can lead to user confusion and errors during form submission. Clearly marking required fields would improve the form-filling experience and reduce the likelihood of submission errors.
+
+- **Unique Use Case Development**: As the application was developed for practice purposes, it does not focus on a unique use case. Identifying and implementing a specific use case could provide direction for more targeted improvements and features, making the app more useful for its end-users.
+
+### Note
+It's important to note that this application was intended solely as a practice project for exploring and improving upon various web development skills. The areas highlighted for improvement reflect its status as a learning tool rather than a market-ready product. Future development efforts can address these areas to enhance the application's functionality and user experience.
+
 ## License
 
 This project is released under the MIT License. For more details, see the LICENSE file in the repository.
