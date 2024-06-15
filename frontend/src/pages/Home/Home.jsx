@@ -120,7 +120,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar userInfo={userInfo} handleSearch={handleSearch}/>
+      <Navbar userInfo={userInfo} handleSearch={handleSearch} getAllNotes={getAllNotes}/>
 
       <div className="container mx-auto">
         <div className="grid grid-cols-3 gap-4 mt-8 ">
