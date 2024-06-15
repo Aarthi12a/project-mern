@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const config = require("./config.json");
+// const config = require("./config.json");
 const mongoose = require("mongoose");
 
 const app = express();
@@ -14,7 +14,7 @@ const { authenticationToken } = require("./utilities");
 app.use(express.json());
 
 mongoose
-  .connect(config.mongoUrl, {})
+  .connect(process.env.MONGO_URL, {})
   .then(() => {
     console.log("MongoDB connection successful");
   })
