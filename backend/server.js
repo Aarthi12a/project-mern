@@ -197,11 +197,26 @@ app.put('/pin-note/:noteId', authenticationToken, async (req, res) => {
   return res.json({error: false, note, message: "Note pinned successfully."});
 });
 
-app.put('/search/:query', authenticationToken, async (req, res) => {
+app.get('/search/:query', authenticationToken, async (req, res) => {
   const query = req.params.query;
   const {user} = req.user;
 
-  const notes = await Note.find({userId: user._id, $text: {$search: query}});
+  if(!query) {
+    return res.status(400).json({error: true, message: "Please enter a search query."});
+  }
+
+  const searchPattern = new RegExp(query, 'i');
+
+  const notes = await Note.find({
+    userId: user._id,
+    $or: [
+      { title: { $regex: searchPattern } },
+      { content: { $regex: searchPattern } },
+      { tags: { $regex: searchPattern } }
+    ]
+  });
+
+
 
   if(!notes) {
     return res.status(400).json({error: true, message: "No notes found."});

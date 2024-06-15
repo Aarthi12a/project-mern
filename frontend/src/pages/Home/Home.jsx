@@ -98,8 +98,20 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
-  
   }
+
+  const handleSearch = async (searchQuery) => {
+    try {
+      const response = await axiosInstance.get(`/search/${searchQuery}`);
+      if (response.data.notes) {
+        setNotes(response.data.notes);
+      } else {
+        console.log(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     getUserInfo();
@@ -108,7 +120,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar userInfo={userInfo} handleSearch={handleSearch}/>
 
       <div className="container mx-auto">
         <div className="grid grid-cols-3 gap-4 mt-8 ">
