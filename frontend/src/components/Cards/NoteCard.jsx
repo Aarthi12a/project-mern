@@ -1,37 +1,54 @@
-import React from 'react'
-import { MdOutlinePushPin } from 'react-icons/md'
-import { MdCreate, MdDelete } from 'react-icons/md'
+import React from 'react';
+import { MdOutlinePushPin, MdCreate, MdDelete } from 'react-icons/md';
 
 export default function NoteCard({
-  title,date,content,tags,isPinned,onEdit,onDelete, onPinNote
+  title, date, content, tags, isPinned, onEdit, onDelete, onPinNote, onClick
 }) {
   return (
-    <>
-      <div className='border rounded p-4 bg-white hover:shadow-xl transition-all ease-in-out'>
-        <div className='flex items-center justify-between'>
-            <div>
-              <h6 className='text-sm font-medium'>
-                  {title}
-              </h6>
-              <span className='text-xs text-slate-500'>
-                {date}
-              </span>
-
-            </div>
-
-            <MdOutlinePushPin className={`icon-btn  ${isPinned ? 'text-primary' : 'text-slate-300'}`}  onClick={onPinNote}/>
+    <div className='border rounded-lg p-4 bg-white hover:shadow-lg transition duration-300 ease-in-out' onClick={onClick}>
+      <div className='flex justify-between items-start'>
+        <div>
+          <h5 className='text-lg font-semibold text-gray-800'>{title}</h5>
+          <p className='text-sm text-gray-500'>{date}</p>
         </div>
+        <button
+          className={`p-2 rounded-full ${isPinned ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-400'}`}
+          onClick={onPinNote}
+          aria-label="Pin Note"
+        >
+          <MdOutlinePushPin />
+        </button>
+      </div>
 
-        <p className='text-xs text-slate-600 mt-2' >{content?.slice(0, 60)}</p>
+      <p className='text-sm text-gray-600 mt-3 mb-2'>
+        {content?.slice(0, 100)}{content.length > 100 ? '...' : ''}
+      </p>
 
-        <div className='flex items-center gap-2'>
-<div className='text-xs text-slate-500 '>{tags.map(tag => <span key={tag}>{`#${tag}`}</span>)}</div>
-          <div className='flex items-center gap-2'>
-            <MdCreate className='icon-btn hover:text-green-600' onClick={onEdit}/>
-            <MdDelete className='icon-btn hover:text-red-600' onClick={onDelete}/>
-          </div>
+      <div className='flex justify-between items-center'>
+        <div className='flex flex-wrap gap-1'>
+          {tags.map(tag => (
+            <span key={tag} className='text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full'>
+              #{tag}
+            </span>
+          ))}
+        </div>
+        <div className='flex gap-2'>
+          <button
+            className='p-2 rounded-full hover:bg-green-100 text-green-600'
+            onClick={onEdit}
+            aria-label="Edit Note"
+          >
+            <MdCreate />
+          </button>
+          <button
+            className='p-2 rounded-full hover:bg-red-100 text-red-600'
+            onClick={onDelete}
+            aria-label="Delete Note"
+          >
+            <MdDelete />
+          </button>
         </div>
       </div>
-    </>
-  )
+    </div>
+  );
 }

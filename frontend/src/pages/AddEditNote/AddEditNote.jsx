@@ -4,135 +4,137 @@ import TagInput from "../../components/Input/TagInput";
 import { MdClose } from "react-icons/md";
 import axiosInstance from "../../utils/axiosinstance";
 
-export default function AddEditNote({onClose, noteData, type, getAllNotes, showToast}) {
-  
-    const [tags, setTags] = useState(noteData?.tags || []);
-    const [title, setTitle] = useState(noteData?.title || '');
-    const [content, setContent] = useState( noteData?.content || "");
+export default function AddEditNote({
+  onClose,
+  noteData,
+  type,
+  getAllNotes,
+  showToast,
+}) {
+  const [tags, setTags] = useState(noteData?.tags || []);
+  const [title, setTitle] = useState(noteData?.title || "");
+  const [content, setContent] = useState(noteData?.content || "");
+  const [error, setError] = useState(null);
 
-    const [error, setError] = useState(null);
+  const handleSetTags = newTags => {
+    if (newTags.length <= 5) { // Limit to 5 tags
+      setTags(newTags.map(tag => tag.slice(0, 10))); // Each tag up to 10 characters
+    }
+  };
 
-    const addNewNote = async () => {
-        try {
-            const response = await axiosInstance.post("/create-note", {
-                title,
-                content,
-                tags,
-            });
-    
-            if (response.data.error) {
-                setError(response.data.error)
-                return;
-            }
-    
-            if(response.data.note) {
-                getAllNotes();
-                onClose();
-            }
-        } catch (error){
-            console.log(error);
-        }
+  const addNewNote = async () => {
+    try {
+      const response = await axiosInstance.post("/create-note", {
+        title,
+        content,
+        tags,
+      });
+      if (response.data.error) {
+        setError(response.data.error);
+        return;
+      }
+      if (response.data.note) {
+        getAllNotes();
+        onClose();
+        showToast("Note Added Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEditNote = async () => {
+    try {
+      console.log("Editing Note with id" + " " + noteData._id);
+      const response = await axiosInstance.post(`/edit-note/${noteData._id}`, {
+        title,
+        content,
+        tags,
+      });
+      if (response.data.error) {
+        setError(response.data.error);
+        return;
+      }
+      if (response.data.note) {
+        getAllNotes();
+        onClose();
+        showToast("Note Edited Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleAddNote = () => {
+    if (!title.trim() || !content.trim()) {
+      setError("Please fill all the fields");
+      return;
     }
 
-    
-    const handleEditNote = async () => {
-        try {
-            console.log("Editing Note with id" + ' ' + noteData._id)
-            const response = await axiosInstance.post(`/edit-note/${noteData._id}`, {
-                title,
-                content,
-                tags,
-            });
+    setError(null);
 
-            if (response.data.error) {
-                setError(response.data.error);
-                return;
-            }
-
-            if(response.data.note) {
-                getAllNotes();
-                onClose();
-                showToast("Note Edited Successfully");
-            }
-        } catch (error) {
-            console.log(error);
-        }
+    if (type === "add") {
+      console.log("Adding Note");
+      addNewNote();
+      showToast("Note Added Successfully");
     }
 
-    const handleAddNote = () => {
-        if (!title.trim() || !content.trim()) {
-            setError("Please fill all the fields")
-            return;
-        }
-
-        setError(null)
-
-        if (type === "add") {
-            console.log("Adding Note");
-            addNewNote()
-            showToast("Note Added Successfully");
-        }
-
-        if (type === "edit") {
-            console.log("Editing Note");
-            editNote()
-            showToast("Note Edited Successfully");
-        }
+    if (type === "edit") {
+      console.log("Editing Note");
+      handleEditNote();
     }
-  
-    return (
+  };
+
+  return (
     <>
-      <div className="relative">
-
-
-<button className="w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 -right-3 hover:bg-slate-50" onClick={onClose}>
-    <MdClose className="text-xl text-slate-400 cursor-pointer"/>
-</button>
-
-        <div className="flex flex-col gap-2">
-          <label className="Input-lable">TITLE</label>
-          <input
-            type="text"
-            className="text-2xl text-slate-950 outline-none"
-            placeholder="Enter Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2 mt-4">
-            <label className="input-lable">CONTENT</label>
-            <textarea
-                type="text"
-                className="text-sm text-slate-950 outline-none bg-slate-50 p-2 rounded"
-                placeholder="Enter Content"
-                rows={10}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-            >
-
-            </textarea>
-        </div>
-
-
-        <div className="mt-3">
-            <label className="input-lable">TAGS</label>
-            <TagInput tags={tags} setTags={setTags}/>
-        </div>
-
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-
-
-        <button className="btn-primary font-medium mt-5 p-3" onClick={() => {
-  if (type === 'add') {
-    handleAddNote();
-  } else if (type === 'edit') {
-    handleEditNote();
-  }
-}}>
-            {type === "add" ? "ADD NOTE" : "EDIT NOTE"}
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+      <div className="relative bg-white rounded-lg shadow-xl p-4 sm:p-8 w-full max-w-4xl m-4">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+        >
+          <MdClose size={24} />
         </button>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          {type === "add" ? "Add New Note" : "Edit Note"}
+        </h2>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Title</label>
+            <input
+              type="text"
+              className="w-full form-input border border-gray-300 rounded-lg shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+              placeholder="Enter Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value.slice(0, 50))} // Max length of 50 characters
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Content</label>
+            <textarea
+              className="w-full form-textarea border border-gray-300 rounded-lg shadow-sm p-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+              placeholder="Enter Content"
+              rows={6}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            ></textarea>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Tags</label>
+            <TagInput tags={tags} setTags={handleSetTags} />
+          </div>
+          {error && (
+            <p className="text-red-500 text-sm">{error}</p>
+          )}
+          <button
+            className="w-full rounded-lg bg-blue-500 py-3 text-white font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            onClick={handleAddNote}
+          >
+            {type === "add" ? "Add Note" : "Edit Note"}
+          </button>
+        </div>
       </div>
+    </div>
     </>
   );
 }

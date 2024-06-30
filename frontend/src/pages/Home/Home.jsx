@@ -8,12 +8,18 @@ import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosinstance";
 import Toast from "../../components/Toasts/Toast";
+import ViewNote from "../ViewNote/ViewNote";
 
 export default function Home() {
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShown: false,
     type: "add",
     data: null,
+  });
+
+  const [openViewNoteModal, setOpenViewNoteModal] = useState({
+    isShown: false,
+    note: null,
   });
 
   const [showToast, setShowToast] = useState({
@@ -113,6 +119,10 @@ export default function Home() {
     }
   };
 
+  const handleViewNote = (note) => {
+    setOpenViewNoteModal({ isShown: true, note });
+  };
+
   useEffect(() => {
     getUserInfo();
     getAllNotes();
@@ -123,8 +133,8 @@ export default function Home() {
       <Navbar userInfo={userInfo} handleSearch={handleSearch} getAllNotes={getAllNotes}/>
 
       <div className="container mx-auto">
-        <div className="grid grid-cols-3 gap-4 mt-8 ">
-          {notes.map((note) => (
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-8">
+            {notes.map((note) => (
             <NoteCard
               key={note._id}
               title={note.title}
@@ -138,6 +148,7 @@ export default function Home() {
               onPin={() => {}}
               onDelete={() => {handleDeleteNote(note)}}
               onPinNote={() => {onPinNote(note)}}
+              onClick={() => handleViewNote(note)}
             />
           ))}
         </div>
@@ -161,7 +172,7 @@ export default function Home() {
           },
         }}
         contentLabel=""
-        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 overflow-x-hidden p-5 overflow-y-auto"
+        className="w-[40%] max-h-3/4 rounded-md mx-auto mt-14 overflow-x-hidden p-5 overflow-y-auto"
       >
         <AddEditNote
           type={openAddEditModal.type}
@@ -173,6 +184,60 @@ export default function Home() {
           showToast={handleShowToast}
         />
       </Modal>
+
+      {/* <Modal
+        isOpen={openViewNoteModal.isShown}
+        onRequestClose={() => setOpenViewNoteModal({ isShown: false, note: null })}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0,0,0,0.6)",
+          },
+        }}
+        contentLabel=""
+        className="w-[70%] max-h-3/4 rounded-md mx-auto mt-14 overflow-x-hidden p-5 overflow-y-auto"
+      >
+        <ViewNote
+          note={openViewNoteModal.note}
+          onCloseNote={() => setOpenViewNoteModal({ isShown: false })}
+        />
+      </Modal> */}
+
+<Modal
+  isOpen={openViewNoteModal.isShown}
+  onRequestClose={() => setOpenViewNoteModal({ isShown: false, note: null })}
+  style={{
+    overlay: {
+      backgroundColor: "rgba(0,0,0,0.6)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    content: {
+      position: "relative", // Override default absolute positioning
+      margin: "auto",
+      width: "90%", // Responsive width
+      maxWidth: "600px", // Max width for larger screens
+      height: "auto", // Auto height based on content
+      top: "0",
+      left: "0",
+      right: "0",
+      bottom: "0",
+      borderRadius: "10px", // Rounded corners
+      padding: "20px", // Inner padding
+      overflow: "hidden", // Prevents overflow
+      display: "flex", // Ensures content is flexibly designed
+      flexDirection: "column", // Stack children vertically
+      justifyContent: "center", // Center vertically in flex container
+      alignItems: "center", // Center horizontally in flex container
+    },
+  }}
+  contentLabel="View Note"
+>
+  <ViewNote
+    note={openViewNoteModal.note}
+    onCloseNote={() => setOpenViewNoteModal({ isShown: false })}
+  />
+</Modal>
 
       <Toast
         isShown={showToast.isShown}
