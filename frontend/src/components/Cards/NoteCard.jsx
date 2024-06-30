@@ -4,6 +4,22 @@ import { MdOutlinePushPin, MdCreate, MdDelete } from 'react-icons/md';
 export default function NoteCard({
   title, date, content, tags, isPinned, onEdit, onDelete, onPinNote, onClick
 }) {
+  // Prevent event propagation to avoid triggering onClick of the parent element
+  const handleEditClick = (event) => {
+    event.stopPropagation();
+    onEdit();
+  };
+
+  const handleDeleteClick = (event) => {
+    event.stopPropagation();
+    onDelete();
+  };
+
+  const handlePinClick = (event) => {
+    event.stopPropagation();
+    onPinNote();
+  };
+
   return (
     <div className='border rounded-lg p-4 bg-white hover:shadow-lg transition duration-300 ease-in-out' onClick={onClick}>
       <div className='flex justify-between items-start'>
@@ -13,7 +29,7 @@ export default function NoteCard({
         </div>
         <button
           className={`p-2 rounded-full ${isPinned ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-400'}`}
-          onClick={onPinNote}
+          onClick={handlePinClick}
           aria-label="Pin Note"
         >
           <MdOutlinePushPin />
@@ -35,14 +51,14 @@ export default function NoteCard({
         <div className='flex gap-2'>
           <button
             className='p-2 rounded-full hover:bg-green-100 text-green-600'
-            onClick={onEdit}
+            onClick={handleEditClick}
             aria-label="Edit Note"
           >
             <MdCreate />
           </button>
           <button
             className='p-2 rounded-full hover:bg-red-100 text-red-600'
-            onClick={onDelete}
+            onClick={handleDeleteClick}
             aria-label="Delete Note"
           >
             <MdDelete />
