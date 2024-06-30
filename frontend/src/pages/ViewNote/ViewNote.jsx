@@ -4,7 +4,7 @@ import { MdClose } from "react-icons/md";
 const ViewNote = ({ note, onCloseNote }) => {
   return (
     note && (
-      <div className="bg-white rounded-lg p-6 shadow-xl relative max-w-4xl w-full mx-auto">
+      <div className="bg-white rounded-lg p-6 relative max-w-4xl w-full mx-auto">
         <button
           onClick={onCloseNote}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"

@@ -215,8 +215,8 @@ export default function Home() {
     content: {
       position: "relative", // Override default absolute positioning
       margin: "auto",
-      width: "90%", // Responsive width
-      maxWidth: "600px", // Max width for larger screens
+      width: "90%",
+      maxWidth: "600px", 
       height: "auto", // Auto height based on content
       top: "0",
       left: "0",
