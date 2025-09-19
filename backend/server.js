@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 const { authenticationToken } = require("./utilities");
 
 app.use(express.json());
-
+console.log(process.env.MONGO_URL);
 mongoose
   .connect(process.env.MONGO_URL, {})
   .then(() => {

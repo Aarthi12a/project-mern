@@ -14,6 +14,11 @@ const noteSchema = new Schema({
   },
   tags: { type: [String], default: [] },
   isPinned: { type: Boolean, default: false },
+  todos: [{
+    text: { type: String, required: true },
+    completed: { type: Boolean, default: false },
+    createdAt: { type: Date, default: Date.now }
+  }],
   createdAt: {
     type: Date,
     default: Date.now,

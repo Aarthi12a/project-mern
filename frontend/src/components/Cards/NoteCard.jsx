@@ -4,7 +4,6 @@ import { MdOutlinePushPin, MdCreate, MdDelete } from 'react-icons/md';
 export default function NoteCard({
   title, date, content, tags, isPinned, onEdit, onDelete, onPinNote, onClick
 }) {
-  // Prevent event propagation to avoid triggering onClick of the parent element
   const handleEditClick = (event) => {
     event.stopPropagation();
     onEdit();
@@ -21,7 +20,10 @@ export default function NoteCard({
   };
 
   return (
-    <div className='border rounded-lg p-4 bg-white hover:shadow-lg transition duration-300 ease-in-out' onClick={onClick}>
+    <div
+      className='border rounded-lg p-4 bg-white hover:shadow-lg transition duration-300 ease-in-out'
+      onClick={onClick}
+    >
       <div className='flex justify-between items-start'>
         <div>
           <h5 className='text-lg font-semibold text-gray-800'>{title}</h5>
@@ -36,14 +38,16 @@ export default function NoteCard({
         </button>
       </div>
 
-      <p className='text-sm text-gray-600 mt-3 mb-2'>
-        {content?.slice(0, 100)}{content.length > 100 ? '...' : ''}
-      </p>
+      {/* Render rich text content */}
+      <div
+        className="text-sm text-gray-600 mt-3 mb-2 line-clamp-4" // Limit preview to 4 lines
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
 
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center mt-3'>
         <div className='flex flex-wrap gap-1'>
           {tags.map(tag => (
-            <span key={tag} className='text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full'>
+            <span key={tag} className='text-xs font-medium text-green-600 bg-gray-100 px-2 py-1 rounded-full'>
               #{tag}
             </span>
           ))}

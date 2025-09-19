@@ -23,7 +23,7 @@ export default function Toast({ isShown, message, type, onClose }) {
         <div className="flex items-center gap-3 py-2 px-4">
           <div
             className={`w-10 h-10 flex items-center justify-center rounded-full ${
-              type === "delete" ? "bg-red-100" : "bg-green-100"
+              type === "delete" ? "bg-green-100" : "bg-green-100"
             }`}
           >
              {type==='delete' ? <MdDeleteOutline className="text-xl text-red-500"/> : <MdCheck className="text-xl text-green-500" />}

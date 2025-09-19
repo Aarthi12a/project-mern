@@ -31,7 +31,7 @@ export default function Navbar({ userInfo, handleSearch, getAllNotes }) {
   return (
     <nav className="bg-gray-100 flex items-center justify-between px-6 py-3 drop-shadow-lg">
       <a onClick={handleIconClick} className="cursor-pointer">
-        <FaRegStickyNote size={32} className="text-blue-600" />
+        Work-Notes APP
       </a>
       <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} handleSearch={() => handleSearch(searchQuery)} clearSearch={clearSearch} />
       <ProfileInfo userInfo={userInfo} />

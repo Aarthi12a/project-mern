@@ -1,35 +1,44 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
 
-const ViewNote = ({ note, onCloseNote }) => {
+export default function ViewNote({ note, onCloseNote }) {
+  if (!note) return null;
+
   return (
-    note && (
-      <div className="bg-white rounded-lg p-6 relative max-w-4xl w-full mx-auto">
+    <div className="w-full">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-800">{note.title}</h2>
+          <p className="text-sm text-gray-500">
+            {new Date(note?.createdAt).toLocaleDateString()}
+          </p>
+        </div>
         <button
           onClick={onCloseNote}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          className="p-2 rounded-full hover:bg-gray-200 text-gray-600"
         >
           <MdClose size={24} />
         </button>
-        <h3 className="text-xl font-semibold text-gray-800">{note.title}</h3>
-        <p className="text-sm text-gray-500 mb-4">
-          {new Date(note.createdAt).toLocaleDateString()}
-        </p>
-        <div className="text-gray-700 whitespace-pre-wrap overflow-y-auto max-h-96" style={{ paddingRight: '1rem' }}>
-          {note.content}
-        </div>
-        {note.tags && note.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-4">
-            {note.tags.map((tag, index) => (
-              <span key={index} className="text-sm text-blue-700 bg-slate-100 px-3 py-1 rounded-full">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
-    )
-  );
-};
 
-export default ViewNote;
+      {/* Rich text content */}
+      <div
+        className="prose max-w-none text-gray-700"
+        dangerouslySetInnerHTML={{ __html: note.content }}
+      />
+
+      {/* Tags */}
+      <div className="flex flex-wrap gap-2 mt-4">
+        {note.tags?.map((tag) => (
+          <span
+            key={tag}
+            className="text-xs font-medium text-gray-600 bg-green-100 px-2 py-1 rounded-full"
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}

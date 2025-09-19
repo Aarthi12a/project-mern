@@ -1,0 +1,13 @@
+/* This targets the actual editable area inside the react-quill component 
+  and sets a minimum height, making it larger by default.
+*/
+.ql-editor {
+  min-height: 250px; /* You can adjust this value as needed */
+  font-size: 16px; /* A slightly larger font can improve readability */
+}
+
+/* This targets the entire container to ensure it grows with the editor */
+.ql-container {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
