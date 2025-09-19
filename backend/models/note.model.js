@@ -27,6 +27,10 @@ const noteSchema = new Schema({
     type: String,
     required: true,
   },
+  notebookId: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Note", noteSchema);

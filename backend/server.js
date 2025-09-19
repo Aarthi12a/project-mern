@@ -23,13 +23,18 @@ mongoose
   });
 
 const User = require("./models/user.model");
+
 const Note = require("./models/note.model");
+const notebookRoutes = require("./notebook.routes");
+
 
 app.use(
   cors({
     origin: "*",
   })
 );
+
+app.use("/api", notebookRoutes);
 
 app.get("/", async (req, res) => {
   res.json("Hello World! This is a note taking app's server.");
@@ -90,7 +95,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.post("/create-note", authenticationToken, async (req, res) => {
-  const { title, content, tags, isPinned } = req.body;
+  const { title, content, tags, isPinned, notebookId } = req.body;
   const {user} = req.user;
 
   if(!title || !content) {
@@ -103,11 +108,13 @@ app.post("/create-note", authenticationToken, async (req, res) => {
     tags,
     isPinned,
     userId: user._id,
+    notebookId: notebookId,
   });
 
+  console.log(note);
   await note.save();
 
-  return res.json({error: false, note, message: "Note created successfully."});
+  return res.json({error: false, note, notebookId, message: "Note created successfully."});
 
 });
 

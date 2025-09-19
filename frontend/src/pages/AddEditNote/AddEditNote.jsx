@@ -11,6 +11,7 @@ export default function AddEditNote({
   type,
   getAllNotes,
   showToast,
+  notebookId,
 }) {
   const [tags, setTags] = useState(noteData?.tags || []);
   const [title, setTitle] = useState(noteData?.title || "");
@@ -29,6 +30,7 @@ export default function AddEditNote({
         title,
         content, // HTML content from ReactQuill
         tags,
+        notebookId,
       });
       if (response.data.error) {
         setError(response.data.error);
