@@ -76,7 +76,7 @@ export default function Notebook() {
           notes.filter(note => note.notebookId === id).map(note => (
             <div key={note._id} className="border p-4 rounded bg-white">
               <h5 className="font-semibold">{note.title}</h5>
-              <p>{note.content}</p>
+              <p>{note.content.replace(/<[^>]+>/g, "")}</p>
             </div>
           ))
         )}

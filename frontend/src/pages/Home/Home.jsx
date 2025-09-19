@@ -192,7 +192,9 @@ export default function Home() {
                 >
                   <div className="flex flex-col">
                     <h5 className="text-lg font-semibold text-gray-800">{note.title}</h5>
-                    <p className="text-sm text-gray-600 line-clamp-1" dangerouslySetInnerHTML={{ __html: note.content }} />
+                    <p className="text-sm text-gray-600 line-clamp-1">
+                      {note.content.replace(/<[^>]+>/g, "")}
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <button className="px-3 py-1 text-sm bg-green-100 text-green-600 rounded hover:bg-green-200" onClick={(e) => { e.stopPropagation(); handleEditNote(note); }}>Edit</button>
